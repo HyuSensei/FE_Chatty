@@ -1,0 +1,21 @@
+.HomePage-Container {
+  .HomePage-Content {
+    .HomePage-List__OtherUsers {
+      border: solid 2px #e5e7eb;
+    }
+    .HomePage-Message__Container {
+      background: url(../../resources/wapper-chat-message.png);
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+    }
+  }
+
+  .HomePage-Chatty {
+    font-weight: 450;
+    font-size: 25px;
+    margin-left: 5px;
+    font-family: fantasy;
+    color: #00266d;
+  }
+}
