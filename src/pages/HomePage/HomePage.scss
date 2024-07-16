@@ -4,7 +4,13 @@
       border: solid 2px #e5e7eb;
     }
     .HomePage-Message__Container {
-      background: url(../../resources/wapper-chat-message.png);
+      background: url(../../resources/wapper-chatty-cute.png);
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+    }
+    .HomePage-Message__NightMode{
+      background: url(../../resources/wapper-chatty-nightmode.png);
       background-repeat: no-repeat;
       background-size: cover;
       background-position: center;

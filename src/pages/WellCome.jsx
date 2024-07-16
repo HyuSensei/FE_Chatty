@@ -1,11 +1,28 @@
-import React from "react";
+import React, { useEffect } from "react";
 import useScreen from "../hook/useScreen";
 import { MdOutlineMenu, MdOutlineHome } from "react-icons/md";
 import { IoMdLogIn } from "react-icons/io";
 import { SiGnuprivacyguard } from "react-icons/si";
+import { useNavigate } from "react-router-dom";
+import { setData } from "../../helpers/localStorage";
+import { useDispatch } from "react-redux";
+import { getDataUser } from "../redux/userSlice";
 
 const WellCome = () => {
   const { isMobile } = useScreen();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get("token");
+    if (token) {
+      setData("token", token);
+      dispatch(getDataUser());
+      navigate("/");
+    }
+  }, []);
+
   return (
     <div className="px-16 h-screen bg-gradient-to-r from-indigo-100 to-indigo-300 overflow-hidden">
       <div className="navbar py-8">
@@ -66,12 +83,15 @@ const WellCome = () => {
                     </li>
                     <li>
                       <div className="font-bold text-xl ml-4 text-sky-700 cursor-pointer">
-                        <IoMdLogIn /> Login
+                        <IoMdLogIn onClick={() => navigate("/login")} /> Login
                       </div>
                     </li>
                     <li>
                       <div className="font-bold text-xl ml-4 text-sky-700 cursor-pointer">
-                        <SiGnuprivacyguard /> Register
+                        <SiGnuprivacyguard
+                          onClick={() => navigate("/register")}
+                        />
+                        Register
                       </div>
                     </li>
                   </ul>
@@ -80,13 +100,22 @@ const WellCome = () => {
             </>
           ) : (
             <>
-              <div className="font-bold text-xl ml-4 text-sky-700 cursor-pointer">
+              <div
+                onClick={() => navigate("/login")}
+                className="font-bold text-xl ml-4 text-sky-700 cursor-pointer hover:text-sky-600"
+              >
                 Home
               </div>
-              <div className="font-bold text-xl ml-4 text-sky-700 cursor-pointer">
+              <div
+                onClick={() => navigate("/login")}
+                className="font-bold text-xl ml-4 text-sky-700 cursor-pointer hover:text-sky-600"
+              >
                 Login
               </div>
-              <div className="font-bold text-xl ml-4 text-sky-700 cursor-pointer">
+              <div
+                onClick={() => navigate("/register")}
+                className="font-bold text-xl ml-4 text-sky-700 cursor-pointer hover:text-sky-600"
+              >
                 Register
               </div>
             </>
@@ -106,7 +135,10 @@ const WellCome = () => {
         </div>
       </div>
       <div className="mt-4 flex justify-center items-center">
-        <button className="btn sm:w-25 md:w-40 sm:text-md md:text-xl bg-gradient-to-r from-indigo-400 to-indigo-800 border-sky-300 text-slate-100">
+        <button
+          onClick={() => navigate("/login")}
+          className="btn sm:w-25 md:w-40 sm:text-md md:text-xl bg-gradient-to-r from-indigo-400 to-indigo-800 border-sky-300 text-slate-100"
+        >
           Get started
         </button>
       </div>

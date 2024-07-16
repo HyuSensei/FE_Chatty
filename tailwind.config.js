@@ -14,6 +14,9 @@ export default {
       textColor: {
         logo: "#14134f",
       },
+      fontFamily: {
+        fantasy: "fantasy",
+      },
     },
   },
   plugins: [daisyui],

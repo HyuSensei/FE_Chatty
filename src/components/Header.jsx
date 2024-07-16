@@ -1,31 +1,17 @@
 import React from "react";
+import DrawerSetting from "./DrawerSetting";
+import { useSelector } from "react-redux";
 
 const HeaderChat = () => {
+  const user = useSelector((state) => state.user);
   return (
-    <div className="navbar bg-base-100">
+    <div className="navbar">
       <div className="navbar-start">
-        <div className="dropdown">
-          <div role="button" className="btn btn-ghost btn-circle">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h16M4 18h7"
-              />
-            </svg>
-          </div>
-        </div>
+        <DrawerSetting />
       </div>
       <div className="navbar-center">
         <svg
-          fill="#5bc0de"
+          fill={"#5bc0de"}
           height="30px"
           width="30px"
           version="1.1"
@@ -50,7 +36,15 @@ const HeaderChat = () => {
             </g>
           </g>
         </svg>
-        <span className="HomePage-Chatty">Chatty</span>
+        <span
+          className={`${
+            user?.isNightMode
+              ? "text-2xl px-2 font-medium text-slate-50 font-fantasy"
+              : "HomePage-Chatty"
+          }`}
+        >
+          Chatty
+        </span>
       </div>
       <div className="navbar-end">
         <button className="btn btn-ghost btn-circle">
@@ -58,9 +52,9 @@ const HeaderChat = () => {
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
-              fill="none"
+              fill={user?.isNightMode ? "#f5f5f5" : "none"}
               viewBox="0 0 24 24"
-              stroke="currentColor"
+              stroke={user?.isNightMode ? "#f5f5f5" : "currentColor"}
             >
               <path
                 strokeLinecap="round"

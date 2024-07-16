@@ -1,19 +1,70 @@
-import { React } from "react";
-import { Routes, Route } from "react-router-dom";
-import HomePage from "../pages/HomePage/HomePage";
-import Login from "../pages/Login";
-import Register from "../pages/Register";
-import NotFound from "../pages/NotFound";
-import WellCome from "../pages/WellCome";
+import React, { useEffect, Suspense, lazy } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getDataUser } from "../redux/userSlice";
+
+const HomePage = lazy(() => import("../pages/HomePage/HomePage"));
+const Login = lazy(() => import("../pages/Login"));
+const Register = lazy(() => import("../pages/Register"));
+const NotFound = lazy(() => import("../pages/NotFound"));
+const WellCome = lazy(() => import("../pages/WellCome"));
 
 const Router = () => {
+  const dispatch = useDispatch();
+  const { isAuthenticated, loading } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    dispatch(getDataUser());
+  }, []);
+
   return (
     <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/wellcome" element={<WellCome />} />
-      <Route path="*" element={<NotFound />} />
+      {loading ? (
+        <Route path="*" element={<div></div>} />
+      ) : (
+        <>
+          <Route
+            path="/"
+            element={
+              <Suspense fallback={<div></div>}>
+                {isAuthenticated ? <HomePage /> : <Navigate to="/wellcome" />}
+              </Suspense>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <Suspense fallback={<div></div>}>
+                {isAuthenticated ? <Navigate to="/" /> : <Login />}
+              </Suspense>
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <Suspense fallback={<div></div>}>
+                {isAuthenticated ? <Navigate to="/" /> : <Register />}
+              </Suspense>
+            }
+          />
+          <Route
+            path="/wellcome"
+            element={
+              <Suspense fallback={<div></div>}>
+                {isAuthenticated ? <Navigate to="/" /> : <WellCome />}
+              </Suspense>
+            }
+          />
+          <Route
+            path="*"
+            element={
+              <Suspense fallback={<div></div>}>
+                <NotFound />
+              </Suspense>
+            }
+          />
+        </>
+      )}
     </Routes>
   );
 };
