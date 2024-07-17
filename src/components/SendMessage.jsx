@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Image, Spin } from "antd";
 import { DeleteOutlined, LoadingOutlined } from "@ant-design/icons";
 import InputEmoji from "react-input-emoji";
@@ -7,6 +7,7 @@ import axios from "axios";
 import { getData } from "../../helpers/localStorage";
 import { ChatContext } from "../context/ChatContext";
 import { useSelector } from "react-redux";
+import useScreen from "../hook/useScreen";
 
 const API_URL = import.meta.env.VITE_APP_API_URL;
 
@@ -22,6 +23,14 @@ const SendMessage = () => {
   const [publicId, setPublicId] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { isNightMode } = useSelector((state) => state.user);
+  const { isMobile } = useScreen();
+
+  useEffect(() => {
+    const element = document.querySelector(".react-emoji-picker--container");
+    if (element) {
+      element.style.right = isMobile ? "-60px" : "";
+    }
+  }, [isMobile]);
 
   const handleIconClick = () => {
     fileInputRef.current.click();
@@ -150,7 +159,9 @@ const SendMessage = () => {
           </svg>
         )}
         <InputEmoji
+          theme={isNightMode ? "dark" : "light"}
           fontSize={17}
+          borderRadius={8}
           value={input.message}
           onChange={(text) => {
             handleChangeInput("message", text);
@@ -161,6 +172,7 @@ const SendMessage = () => {
               handleSubmit(e);
             }
           }}
+          shouldReturn
         />
         <button type="submit" className="btn btn-ghost btn-circle">
           <svg

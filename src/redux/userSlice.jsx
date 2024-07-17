@@ -19,11 +19,14 @@ const initialState = {
 export const getDataUser = createAsyncThunk("user/getUser", async () => {
   try {
     const token = getData("token");
-    const res = await axios.get(API_URL + `/user`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    let res = null;
+    if (token) {
+      res = await axios.get(API_URL + `/user`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    }
     return res.data;
   } catch (error) {
     console.log("Login chatty require");

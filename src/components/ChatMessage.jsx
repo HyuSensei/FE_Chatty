@@ -19,8 +19,6 @@ const ChatMessage = () => {
   );
   const { isMobile } = useScreen();
 
-  console.log(selected);
-
   if (isEmpty(selected)) {
     return (
       <div className="flex items-center justify-center h-screen">

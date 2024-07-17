@@ -94,16 +94,6 @@ const OtherUsers = () => {
     );
   }
 
-  // if (filteredUsers.length === 0) {
-  //   return (
-  //     <div className="flex items-center justify-center h-screen">
-  //       <div className="bg-teal-100 px-4 py-1 rounded-xl text-slate-500 font-bold">
-  //         Not found user
-  //       </div>
-  //     </div>
-  //   );
-  // }
-
   return (
     <div className="py-2">
       <div className="mx-2 my-1">
@@ -129,7 +119,7 @@ const OtherUsers = () => {
           </svg>
         </label>
       </div>
-      <div className="h-[calc(100vh-50px)] flex flex-col overflow-auto mt-3">
+      <div className="h-[calc(100vh-50px)] flex flex-col overflow-y-scroll flex-1 mt-3">
         {filteredUsers && filteredUsers.length > 0 ? (
           filteredUsers?.map((item, index) => (
             <div
