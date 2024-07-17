@@ -33,16 +33,25 @@ const ListMessage = () => {
     socket?.on("send-message", (newMessage) => {
       const sound = new Audio(notificationSound);
       sound.play();
-      setData((prev) => {
-        const previousData = prev || {};
-        const previousMessages = previousData.messages || [];
-        return {
-          ...previousData,
-          messages: [...previousMessages, newMessage],
-        };
-      });
-      if (selected?._id !== newMessage.receiver) {
-        setRefeshMessage((prev) => !prev);
+      if (selected?._id === newMessage.sender) {
+        setData((prev) => {
+          const previousData = prev || {};
+          const previousMessages = previousData.messages || [];
+          return {
+            ...previousData,
+            messages: [...previousMessages, newMessage],
+          };
+        });
+      } else {
+        setData((prev) => {
+          const previousData = prev || {};
+          const previousMessages = previousData.messages || [];
+          return {
+            ...previousData,
+            messages: [...previousMessages],
+            messageOther: newMessage._id,
+          };
+        });
       }
       if (selected?._id === newMessage.sender) {
         socket?.emit("seen", newMessage._id);
@@ -51,7 +60,7 @@ const ListMessage = () => {
     return () => socket?.off("send-message");
   }, [socket, data?.messages]);
 
-  if (!data) {
+  if (!data || data.messages?.length === 0) {
     return (
       <div className="flex items-center justify-center h-screen ">
         <div className="bg-teal-100 px-4 py-1 rounded-xl text-sky-900 font-bold">
@@ -122,7 +131,11 @@ const ListMessage = () => {
                     <img alt="avatar-chat" src={user.profileImage} />
                   </div>
                 </div>
-                <div className={`${user?.isNightMode ? "bg-lime-200" : "bg-lime-100"} chat-bubble text-slate-700 font-medium`}>
+                <div
+                  className={`${
+                    user?.isNightMode ? "bg-lime-200" : "bg-lime-100"
+                  } chat-bubble text-slate-700 font-medium`}
+                >
                   <div
                     className={`${
                       message.message ? "py-2 break-words max-w-96" : ""

@@ -68,7 +68,7 @@ const OtherUsers = () => {
       });
     }
     return () => socket?.off("conversation");
-  }, [socket, dataMessage?.messages]);
+  }, [socket, dataMessage]);
 
   useEffect(() => {
     setFilteredUsers(
